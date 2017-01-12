@@ -30,7 +30,8 @@ def gradient_descent(alpha, x, y, ep=0.0001, max_iter=10000):
     # Iterate Loop
     while not converged:
         # for each training sample, compute the gradient (d/d_theta j(theta))
-        grad0 = 1.0/m * sum([(t0*x[i]**2 - y[i]) for i in range(m)])
+        # grad0 = 1.0/m * sum([(t0*x[i]**2 - y[i]) for i in range(m)])
+        grad0 = sum([(t0 * (x[i] + 0.00001) ** 2 - t0 * x[i] ** 2) / 0.00001 for i in range(m) ])
 
         # update the theta_temp
         temp0 = t0 - alpha * grad0
