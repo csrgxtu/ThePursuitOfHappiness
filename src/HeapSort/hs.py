@@ -21,7 +21,7 @@ def heap_sort(lst):
         """最大堆调整"""
         root = start
         while True:
-            print '\t\t', lst
+            # print '\t\t', lst
             child = 2 * root + 1 # right child
             if child > end:
                 break
@@ -34,10 +34,10 @@ def heap_sort(lst):
                 break
 
     # 创建最大堆
-    print lst
+    # print lst
     for start in xrange((len(lst) - 2) // 2, -1, -1):
         # 3, 2, 1, 0
-        print '\t', lst
+        # print '\t', lst
         # sift_down(start, len(lst) - 1)
         sift_up(start, len(lst) - 1)
 
