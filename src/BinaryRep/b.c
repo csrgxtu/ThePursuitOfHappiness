@@ -71,6 +71,35 @@ void searchAndReplace(char *pt, int length) {
   }
 }
 
+int replace(int num)
+{
+    unsigned int mode3bit = 7;
+    unsigned int mode1bit = 1;
+    int shift = 0;
+    int result = 0;
+    while (shift < 32)
+    {
+        while (shift < 32 && (num & (mode3bit<<shift)) != (1<<shift))
+        {
+            result += (num & (mode1bit<<shift));
+            shift++;
+        }
+        if (shift >= 32)
+        {
+            break;
+        }
+        else if (32 - shift < 3)  //高位不足3位
+        {
+            result += (num & (mode3bit<<shift));
+            break;
+        }
+        result += (3<<shift);
+        shift += 3;
+
+    }
+    return result;
+}
+
 int main(void) {
   long decimal = 9;
   char pool[32] = "0000000000000000000000000000000";
@@ -90,6 +119,8 @@ int main(void) {
   }
   printf("\n");
   binaryToDecimal(pool, 32);
+
+  printf("%d\n", replace(9));
 
   return 0;
 }
