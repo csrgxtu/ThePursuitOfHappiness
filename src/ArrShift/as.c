@@ -11,19 +11,19 @@ int reverse(int *a, int b, int c) {
 }
 
 int main(void) {
-  int arr[5] = {1, 2, 3, 4, 5};
-  int shift = 1;
+  int arr[3] = {1, 2, 3};
+  int shift = 2;
 
   // reverse(arr, 0, 4);
   // reverse(A, A + N - k);
   // reverse(A + N - k, A + N);
   // reverse(A, A + N);
-  reverse(arr, 0, 5 - shift - 1);
-  reverse(arr, 5 - shift, 5 - 1);
-  reverse(arr, 0, 5 - 1);
+  reverse(arr, 0, 3 - shift - 1);
+  reverse(arr, 3 - shift, 3 - 1);
+  reverse(arr, 0, 3 - 1);
 
   int i;
-  for (i = 0; i < 5; i++) {
+  for (i = 0; i < 3; i++) {
     printf("%d\n", arr[i]);
   }
 
