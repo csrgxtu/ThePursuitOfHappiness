@@ -1,16 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <semaphore.h>
 
-pthread_mutex_t lock;
+sem_t s1;
+sem_t s2;
+sem_t s3;
 
-void *printTask(void *arg) {
+void *printTask1(void *arg) {
+  int i;
+  
+  for (i = 0; i < 10; i++) {
+    sem_wait(&s3);
+    printf("%s", (char *)arg);
+    sem_post(&s1);
+  }
+}
+
+void *printTask2(void *arg) {
   int i;
 
   for (i = 0; i < 10; i++) {
-    pthread_mutex_lock(&lock);
+    sem_wait(&s1);
     printf("%s", (char *)arg);
-    pthread_mutex_unlock(&lock);
+    sem_post(&s2);
+  }
+}
+
+
+void *printTask3(void *arg) {
+  int i;
+
+  for (i = 0; i < 10; i++) {
+    sem_wait(&s2);
+    printf("%s", (char *)arg);
+    sem_post(&s1);
   }
 }
 
@@ -21,15 +45,17 @@ int main(void) {
   char *msg3 = "C";
   pthread_t tids[3];
   
-  err = pthread_create(&tids[0], NULL, printTask, (void *)msg1);
-  err = pthread_create(&tids[1], NULL, printTask, (void *)msg2);
-  err = pthread_create(&tids[2], NULL, printTask, (void *)msg3);
+  sem_init(&s1, 0, 0); 
+  sem_init(&s2, 0, 0); 
+  sem_init(&s3, 0, 0); 
+  err = pthread_create(&tids[0], NULL, printTask1, (void *)msg1);
+  err = pthread_create(&tids[1], NULL, printTask2, (void *)msg2);
+  err = pthread_create(&tids[2], NULL, printTask3, (void *)msg3);
   
   int i;
   for (i = 0; i < 3; i++) {
     pthread_join(tids[i], NULL);
   }
-  pthread_mutex_destroy(&lock);
    
   return 0;
 }
